@@ -37,6 +37,15 @@ const getPosts = async (req, res) => {
   }
 };
 
+const getAllPosts = async (req, res) => {
+  try {
+    const posts = await Post.find().populate("author", "-password");
+    return res.status(200).json(posts);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 const updatePost = async (req, res) => {
   const { title, content } = req.body;
   const { id } = req.params;
@@ -71,4 +80,5 @@ module.exports = {
   getPosts,
   updatePost,
   deletePost,
+  getAllPosts,
 };
